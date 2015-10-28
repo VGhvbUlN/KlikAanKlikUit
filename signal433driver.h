@@ -7,7 +7,7 @@
 //Software PWM Pin(GPIO0-11)
 
 extern int signal433Create(int pin);
-extern int  __attribute__ ((hot)) signal433Send(char *toSend);
+extern int  __attribute__ ((hot)) signal433Send(char *toSend,int length);
 extern void signal433Stop();
 
 

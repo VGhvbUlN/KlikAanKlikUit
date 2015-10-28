@@ -113,11 +113,6 @@ void signal433Stop() {
 }
 
 
-
-
-
-
-
 int __attribute__ ((hot)) signal433Send(char *toSend, int length) {
     int countWildCard, countSendBit; // counters
     int numberOfSends; /* == square 2^numberOfWildcards == 1 << numberOfWildcards */
