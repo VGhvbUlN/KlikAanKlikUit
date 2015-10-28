@@ -44,10 +44,11 @@ static  __attribute__ ((hot)) PI_THREAD(signal433Thread) {
     int localPin;
     int localSendCode;
     int localLengthOfCode = 0;
+    int localNumberOfRepeats;
     
     localPin = pin;
     pin = -1;
-    numberOfRepeats = -1
+    numberOfRepeats = -1;
     
     piHiPri(150); // wiringPi HiPri
     
@@ -56,7 +57,7 @@ static  __attribute__ ((hot)) PI_THREAD(signal433Thread) {
             /* Start Sending */
             sendChip(localPin, 0);
             for(sendBit = localLengthOfCode-1; sendBit >= 0; sendBit--) {
-                if((theSendCode >> sendBit)&0x01) {
+                if((localSendCode >> sendBit)&0x01) {
                     sendChip(localPin, 1);
                 } else {
                     sendChip(localPin, 0);
