@@ -11,13 +11,12 @@
 
 void exit_event(int signum);
 
-int SOFT_PWM_PIN=0; //Software PWM Pin(GPIO0-11)
-
 int main(void) {
   (void)signal (SIGINT,  exit_event);
   (void)signal (SIGQUIT, exit_event);
-  int code = 0b110101011101;
-  printf("Software based PWM test on LED\n");
+  char code[13] = "110101011101";
+  int ret;
+  printf("Software based 433Mhz test\n");
   
   if(getuid()!=0) {
     printf("Error:wiringPi must be run as root.\n");
@@ -31,25 +30,21 @@ int main(void) {
   
   //signal433Create
 
-  signal433Create(SOFT_PWM_PIN,code); //setup software pwm pin
+  signal433Create(DATA_433MHZ_PIN); //,code,DEFAULT_REPEATS);
   // int i = 0;
    
-  
-  while(1){
-    /*
-     for(i=0;i<100;i++){
-      softPwmWrite(SOFT_PWM_PIN,i);
-      delay(500);
-    }
-    */
+  ret = 1;
+  while(ret){
+      ret = signal433Send(code,12);
+      printf("Return %d\r\n",ret);
   }
+  
+  signal433Stop();
   return 0;
 }
 
 void exit_event(int signum) {
   printf("\b\bExiting...\n");
-  digitalWrite(SOFT_PWM_PIN, LOW);
-  delay(100); //wait a little for the pwm to finish write wiringPiSetup();
-  pinMode(0, OUTPUT);
+  signal433Stop();
   exit(0);
 }
